@@ -620,6 +620,7 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
             const c = document.getElementById('menu-container');
             if (c) c.innerHTML = '';
             (async () => {
+                await initDataRepoConfig();
                 await initHeroFromAssets();
                 await renderMenuFromAssets();
                 initLazyLoad();
@@ -897,15 +898,15 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
     -->
 
     <script>
-        window.GH_OWNER = window.GH_OWNER || '';
-        window.GH_REPO = window.GH_REPO || '';
-        window.GH_BRANCH = window.GH_BRANCH || 'main';
+        window.GH_OWNER = window.GH_OWNER || (window.DATA_REPO && window.DATA_REPO.owner) || window.GITHUB_OWNER || '';
+        window.GH_REPO = window.GH_REPO || (window.DATA_REPO && window.DATA_REPO.repo) || window.GITHUB_REPO || '';
+        window.GH_BRANCH = window.GH_BRANCH || (window.DATA_REPO && window.DATA_REPO.branch) || window.GITHUB_BRANCH || 'main';
         const isGhEnabled = () => Boolean(window.GH_OWNER && window.GH_REPO);
         const ghUrls = (path) => { const t=Date.now(); const p=String(path||'').replace(/^\//,''); return [
           `https://raw.githubusercontent.com/${window.GH_OWNER}/${window.GH_REPO}/${window.GH_BRANCH}/${p}?t=${t}`,
           `https://cdn.jsdelivr.net/gh/${window.GH_OWNER}/${window.GH_REPO}@${window.GH_BRANCH}/${p}?t=${t}`
         ]; };
-        async function initDataRepoConfig(){ if (isGhEnabled()) return; try { const resp=await fetch('/api/config'); if (resp.ok){ const j=await resp.json(); if (j&&j.ok&&j.owner&&j.repo){ window.GH_OWNER=j.owner; window.GH_REPO=j.repo; window.GH_BRANCH=j.branch||'main'; } } } catch {} }
+        async function initDataRepoConfig(){ const u=new URL(window.location.href); const owner=u.searchParams.get('gh_owner'); const repo=u.searchParams.get('gh_repo'); const branch=u.searchParams.get('gh_branch'); if(owner&&repo){ window.GH_OWNER=owner; window.GH_REPO=repo; if(branch) window.GH_BRANCH=branch; } if (isGhEnabled()) return; try { const resp=await fetch('/api/config'); if (resp.ok){ const j=await resp.json(); if (j&&j.ok&&j.owner&&j.repo){ window.GH_OWNER=j.owner; window.GH_REPO=j.repo; window.GH_BRANCH=j.branch||'main'; } } } catch {} }
 
         async function loadJson(path) {
             if (isGhEnabled()) {
