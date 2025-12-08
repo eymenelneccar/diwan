@@ -10,5 +10,11 @@
     "imageUrl": "assets/images/sa.png",
     "span": 1,
     "height": 48
+  },
+  {
+    "name": "قهوة وحليب",
+    "imageUrl": "",
+    "span": 1,
+    "height": 48
   }
 ]

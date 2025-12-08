@@ -117,7 +117,7 @@
         <div class="phone">
           <div class="phone-screen">
             <div class="iframe-wrap">
-              <iframe src="menu.html" title="معاينة الهاتف" loading="lazy" referrerpolicy="no-referrer"></iframe>
+              <iframe src="index.html" title="معاينة الهاتف" loading="lazy" referrerpolicy="no-referrer"></iframe>
             </div>
           </div>
         </div>
@@ -142,6 +142,23 @@
       <a id="tileItems" class="tile-action" href="items.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="4" cy="6" r="1" stroke-width="2"/><circle cx="4" cy="12" r="1" stroke-width="2"/><circle cx="4" cy="18" r="1" stroke-width="2"/><path d="M8 6h12" stroke-width="2" stroke-linecap="round"/><path d="M8 12h12" stroke-width="2" stroke-linecap="round"/><path d="M8 18h12" stroke-width="2" stroke-linecap="round"/></svg>إدارة الأصناف<span class="sub">إضافة وتعديل وحذف</span></a>
       <a id="tileGovs" class="tile-action" href="governorates.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11" r="3" stroke-width="2"/></svg>إدارة المحافظات<span class="sub">أجور التوصيل</span></a>
       <a id="tileSettings" class="tile-action lg:col-span-2" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3" stroke-width="2"/><path d="M19.4 15a7.8 7.8 0 0 0 .1-2l2-1.5-2-3.5-2.3.5a7.8 7.8 0 0 0-1.7-1l-.5-2.3h-4l-.5 2.3a7.8 7.8 0 0 0-1.7 1L4.5 8l-2 3.5L4.4 13a7.8 7.8 0 0 0 .1 2l-2 1.5 2 3.5 2.3-.5a7.8 7.8 0 0 0 1.7 1l.5 2.3h4l.5-2.3a7.8 7.8 0 0 0 1.7-1l2.3.5 2-3.5-2-1.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>الإعدادات<span class="sub">خيارات عامة للواجهة</span></a>
+    </div>
+  </section>
+  <section class="px-4 sm:px-8 mb-8">
+    <div class="card">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-bold text-primary">الإدخالات السريعة</h3>
+        <div class="text-xs text-gray-600">اكتب بصيغة: <span class="font-bold">### فئة</span>، <span class="font-bold"># اسم --- السعر</span>، <span class="font-bold">&gt; وصف</span></div>
+      </div>
+      <div class="space-y-3">
+        <textarea id="quickInput" rows="8" class="input w-full" placeholder="مثال:\n### قهوة\n# اسبريسو --- 2500\n&gt; سنجل\n# دوبيو --- 3500\n&gt; دبل شوت"></textarea>
+        <div class="flex items-center justify-end gap-2">
+          <button id="btnQuickParse" class="btn btn-outline">تحويل</button>
+          <button id="btnSave" class="btn btn-primary">حفظ</button>
+        </div>
+        <div id="quickStatus" class="text-xs text-gray-500"></div>
+        <div id="quickPreview" class="text-sm text-gray-700"></div>
+      </div>
     </div>
   </section>
 
@@ -482,6 +499,10 @@
       btnSaveHero: document.getElementById('btnSaveHero'),
       heroPreviewImg: document.getElementById('heroPreviewImg'),
       heroPreviewTitle: document.getElementById('heroPreviewTitle'),
+      quickInput: document.getElementById('quickInput'),
+      btnQuickParse: document.getElementById('btnQuickParse'),
+      quickStatus: document.getElementById('quickStatus'),
+      quickPreview: document.getElementById('quickPreview'),
       imageFileInput: (() => {
         const input = document.createElement('input');
         input.type = 'file';
@@ -958,6 +979,81 @@
       }
     }
 
+    function normalizePrice(v) {
+      const n = Number(String(v || '').replace(/[^\d.]/g, '').trim());
+      return Number.isFinite(n) ? n : 0;
+    }
+    function parseQuickEntryText(txt) {
+      const lines = String(txt || '').split(/\r?\n/).map(l => l.trim());
+      const cats = [];
+      const newItems = [];
+      let currentCat = '';
+      let lastItem = null;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line) continue;
+        if (line.startsWith('###')) {
+          const name = line.replace(/^###\s*/, '').trim();
+          if (name) {
+            currentCat = name;
+            if (!cats.includes(name)) cats.push(name);
+            lastItem = null;
+          }
+          continue;
+        }
+        if (line.startsWith('#')) {
+          const body = line.replace(/^#\s*/, '');
+          const parts = body.split(/---|—|–|-/);
+          const name = (parts[0] || '').trim();
+          const price = normalizePrice(parts[1] || '');
+          if (!name) continue;
+          const id = Date.now() + Math.floor(Math.random() * 1000);
+          const item = { id, name, category: (currentCat || FALLBACK_CATEGORY), price, imageUrl: '', description: '' };
+          newItems.push(item);
+          lastItem = item;
+          continue;
+        }
+        if (line.startsWith('>')) {
+          const desc = line.replace(/^>\s*/, '').trim();
+          if (lastItem && desc) lastItem.description = lastItem.description ? (lastItem.description + ' ' + desc) : desc;
+          continue;
+        }
+      }
+      return { cats, newItems };
+    }
+    function applyQuickEntry() {
+      const txt = (els.quickInput && els.quickInput.value) || '';
+      const parsed = parseQuickEntryText(txt);
+      const cats = parsed.cats || [];
+      const newItems = parsed.newItems || [];
+      if (!cats.length && !newItems.length) {
+        if (els.quickStatus) els.quickStatus.textContent = 'لا يوجد محتوى صالح';
+        if (els.quickPreview) els.quickPreview.textContent = '';
+        return;
+      }
+      const set = new Set(Array.isArray(categories) ? categories : []);
+      cats.forEach(c => { const n = String(c || '').trim(); if (n) set.add(n); });
+      categories = Array.from(set);
+      newItems.forEach(it => {
+        const n = String(it.name || '').trim();
+        const c = String(it.category || '').trim();
+        if (!n) return;
+        const exist = items.find(x => String(x.name || '').trim() === n && String(x.category || '').trim() === c);
+        if (exist) {
+          if (Number.isFinite(it.price)) exist.price = it.price;
+          if (it.description) exist.description = it.description;
+        } else {
+          items.push(it);
+        }
+      });
+      saveCategories();
+      saveData();
+      if (els.quickPreview) {
+        els.quickPreview.textContent = `تم تجهيز ${newItems.length} صنف ضمن ${cats.length} فئة`;
+      }
+      if (els.quickStatus) els.quickStatus.textContent = 'جاهز للحفظ';
+    }
+
     function updateHeroPreview() {
       if (els.heroPreviewImg) {
         const src = resolveAssetUrl((els.heroImage && els.heroImage.value) || '');
@@ -1003,10 +1099,9 @@
     }
 
     async function saveHeroToServer() {
-      const payload = {
-        title: (els.heroTitle && els.heroTitle.value) || '',
-        imageUrl: (els.heroImage && els.heroImage.value) || '',
-      };
+      let base = {};
+      try { base = await loadJson('assets/hero.json'); } catch {}
+      const payload = { ...((typeof base==='object'&&base)||{}), title: (els.heroTitle && els.heroTitle.value) || '', imageUrl: (els.heroImage && els.heroImage.value) || '' };
       const originalText = els.btnSaveHero ? els.btnSaveHero.textContent : '';
       if (els.btnSaveHero) { els.btnSaveHero.textContent = 'جارِ الحفظ...'; els.btnSaveHero.disabled = true; }
       try {
@@ -1119,7 +1214,8 @@
     if (els.languageToggle) {
       els.languageToggle.addEventListener('click', () => {});
     }
-
+    if (els.btnQuickParse) els.btnQuickParse.addEventListener('click', applyQuickEntry);
+    
     // إدارة الفئات: فتح/إغلاق وإضافة/إعادة تسمية/حذف
     function openCatsModal() {
       els.catsModal.classList.remove('hidden');

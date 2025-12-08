@@ -1,4 +1,5 @@
 <html dir="rtl" lang="ar"><head>
+<script>(function(){try{var n=function(){};var c=window.console||{};['log','info','debug','warn'].forEach(function(f){try{c[f]=n}catch{}});window.console=c;if(typeof console.clear==='function'){setTimeout(function(){try{console.clear()}catch{}},0)}}catch{}})();</script>
 
 <script class="injected-ffc2e83d85">
 (function(){'use strict';function q(b){var c=0;return function(){return c<b.length?{done:!1,value:b[c++]}:{done:!0}}}function t(b){var c=typeof Symbol!="undefined"&&Symbol.iterator&&b[Symbol.iterator];if(c)return c.call(b);if(typeof b.length=="number")return{next:q(b)};throw Error(String(b)+" is not an iterable or ArrayLike");}var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,c,g){if(b==Array.prototype||b==Object.prototype)return b;b[c]=g.value;return b};
@@ -191,7 +192,7 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <title>فرن الديون | التصميم الهندسي</title>
+    <title>افران و معجنات الديوان | منيو</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fonts & Icons -->
@@ -476,8 +477,8 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
         <!-- Quick Stats / Info Bar -->
         <div class="glass-panel p-4 rounded-2xl flex justify-between items-center">
             <div class="text-center flex-1 border-l border-brand-gold/20">
-                <span class="block text-brand-gold font-bold text-lg">24</span>
-                <span class="text-[10px] text-brand-base/60 font-bold uppercase">ساعة عمل</span>
+                <span class="material-symbols-sharp block text-brand-gold text-2xl">schedule</span>
+                <span class="text-[10px] text-brand-base/60 font-bold uppercase">مفتوح الآن</span>
             </div>
             <div class="text-center flex-1 border-l border-brand-gold/20">
                 <span class="block text-brand-gold font-bold text-lg">15+</span>
@@ -518,6 +519,13 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
         </button>
     </div>
 
+    <div id="fixed-footer" class="fixed bottom-0 left-0 right-0 z-40">
+        <div class="w-full px-4 py-2 text-center bg-white/85 backdrop-blur-md border-t border-brand-base/10">
+            <span class="text-brand-base text-xs md:text-sm">تم صنعها بواسطة | </span>
+            <span class="text-brand-gold font-bold text-xs md:text-sm">İQR MENU</span>
+        </div>
+    </div>
+
     <!-- Cart Sidebar (Right Side Panel) -->
     <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full max-w-sm bg-brand-surface z-[60] transform translate-x-full transition-transform duration-500 shadow-2xl flex flex-col">
         <!-- Header -->
@@ -528,7 +536,7 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
                  <span class="material-symbols-sharp text-3xl">close</span>
              </button>
              <h2 class="text-3xl font-bold text-white mb-1">طلباتك</h2>
-             <p class="text-brand-gold text-sm opacity-80">تم اختيارها بعناية</p>
+             <p class="text-brand-gold text-sm opacity-80">تم تجهيزها بعناية</p>
         </div>
         
         <!-- Items -->
@@ -612,7 +620,37 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
         </div>
     </div>
 
+    <div id="checkout-overlay" onclick="closeCheckoutModal()" class="fixed inset-0 bg-brand-base/80 backdrop-blur-sm z-[75] hidden transition-opacity opacity-0"></div>
+    <div id="checkout-modal" class="fixed inset-0 z-[80] flex items-center justify-center pointer-events-none hidden">
+        <div id="checkout-card" class="pointer-events-auto w-[92%] max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300">
+            <div class="relative bg-brand-base p-5 text-white">
+                <button onclick="closeCheckoutModal()" class="absolute top-3 left-3 text-white/90 hover:text-brand-gold">
+                    <span class="material-symbols-sharp">close</span>
+                </button>
+                <h3 class="text-2xl font-bold">تأكيد الطلب</h3>
+                <p class="text-brand-gold text-sm">أدخل بياناتك ثم راجع الفاتورة</p>
+            </div>
+            <div class="p-5 space-y-4">
+                <div class="grid grid-cols-1 gap-3">
+                    <input id="cust-name" type="text" class="w-full border border-gray-200 rounded-lg p-3 text-sm" placeholder="الاسم" required />
+                    <input id="cust-phone" type="text" inputmode="tel" class="w-full border border-gray-200 rounded-lg p-3 text-sm" placeholder="الرقم" required />
+                    <input id="cust-address" type="text" class="w-full border border-gray-200 rounded-lg p-3 text-sm" placeholder="العنوان" required />
+                    <textarea id="cust-note" rows="2" class="w-full border border-gray-200 rounded-lg p-3 text-sm" placeholder="ملاحظة"></textarea>
+                </div>
+                <div id="smart-card" class="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2">
+                    <div class="font-bold text-brand-base">اقتراحات ذكية</div>
+                    <div id="smart-suggestions" class="flex gap-2 overflow-x-auto py-1"></div>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="sendOrder()" class="flex-1 bg-brand-base text-brand-gold font-bold py-3 rounded-xl shadow-lg hover:bg-gray-900 transition-colors">إرسال عبر واتساب</button>
+                    <button onclick="closeCheckoutModal()" class="px-4 py-3 rounded-xl border border-gray-200">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        if (!window.SHEETS_WEBHOOK_URL) window.SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxV4XQ2obBgC1S7MfJpiklkmrLI3h_LzKpKOLhhlnKITmTyy1oqhH5fADB7JbyXx7h5/exec';
 
         let cart = {};
 
@@ -854,9 +892,142 @@ wb);O(IMG_SEARCH_ATTRIBUTION_MAP,Pd);O(IMG_GEN_REPLACE_MAP,fa.A);X();jf();h.A=0}
         
         function checkout() {
             if(Object.keys(cart).length === 0) return;
-            alert('شكراً لك! طلبك قيد التنفيذ.');
+            openCheckoutModal();
+        }
+
+        function openCheckoutModal() {
+            const nameEl = document.getElementById('cust-name');
+            const phoneEl = document.getElementById('cust-phone');
+            const addressEl = document.getElementById('cust-address');
+            const noteEl = document.getElementById('cust-note');
+            const invoiceEl = document.getElementById('invoice-preview');
+            if(!localStorage.getItem('restaurant_whatsapp_number')){ localStorage.setItem('restaurant_whatsapp_number','96407718444999'); }
+            nameEl.value = (localStorage.getItem('customer_name')||'');
+            phoneEl.value = (localStorage.getItem('customer_phone')||'');
+            addressEl.value = (localStorage.getItem('customer_address')||'');
+            noteEl.value = (localStorage.getItem('customer_note')||'');
+            updateInvoicePreview();
+            renderSmartSuggestions();
+            const overlay = document.getElementById('checkout-overlay');
+            const wrap = document.getElementById('checkout-modal');
+            const card = document.getElementById('checkout-card');
+            overlay.classList.remove('hidden');
+            wrap.classList.remove('hidden');
+            void overlay.offsetWidth;
+            overlay.classList.add('opacity-100');
+            card.classList.remove('opacity-0','scale-95');
+            card.classList.add('opacity-100','scale-100');
+        }
+        function closeCheckoutModal() {
+            const overlay = document.getElementById('checkout-overlay');
+            const wrap = document.getElementById('checkout-modal');
+            const card = document.getElementById('checkout-card');
+            overlay.classList.remove('opacity-100');
+            card.classList.remove('opacity-100','scale-100');
+            card.classList.add('opacity-0','scale-95');
+            setTimeout(()=>{ overlay.classList.add('hidden'); wrap.classList.add('hidden'); }, 300);
+        }
+        function formatCurrency(v){ return Number(v||0).toLocaleString('ar-IQ') + ' د.ع'; }
+        function buildInvoiceMessage(info){
+            const items = Object.entries(cart);
+            let lines = [];
+            items.forEach(([id,i])=>{ lines.push(`- ${i.name} x ${i.qty} — ${Number(i.price*i.qty).toLocaleString('ar-IQ')} د.ع`); });
+            const total = items.reduce((s,[,i])=>s + i.price*i.qty, 0);
+            const head = 'فاتورة الطلب\nالأصناف:';
+            const tail = [`المجموع: ${Number(total).toLocaleString('ar-IQ')} د.ع`,`الاسم: ${String(info.name||'')}`,`الرقم: ${String(info.phone||'')}`,`العنوان: ${String(info.address||'')}`,`ملاحظة: ${String(info.note||'')}`];
+            return [head, ...lines, ...tail].join('\n');
+        }
+        function updateInvoicePreview(){
+            const invoiceEl = document.getElementById('invoice-preview');
+            if(!invoiceEl) return;
+            const nameEl = document.getElementById('cust-name');
+            const phoneEl = document.getElementById('cust-phone');
+            const addressEl = document.getElementById('cust-address');
+            const noteEl = document.getElementById('cust-note');
+            const msg = buildInvoiceMessage({name:nameEl.value, phone:phoneEl.value, address:addressEl.value, note:noteEl.value});
+            invoiceEl.textContent = msg.replace(/^فاتورة الطلب\nالأصناف:\n/,'');
+        }
+        async function renderSmartSuggestions(){
+            const wrap = document.getElementById('smart-suggestions');
+            const card = document.getElementById('smart-card');
+            if(!wrap || !card) return;
+            wrap.innerHTML='';
+            const all = await loadItemsFromAssets();
+            const cartIds = Object.keys(cart).map(id=>Number(id));
+            const freq = new Map();
+            cartIds.forEach(id=>{ const it = all.find(i=>Number(i.id)===Number(id)); const c=(it&&it.category)||''; if(c) freq.set(c,(freq.get(c)||0)+1); });
+            const topCats = Array.from(freq.entries()).sort((a,b)=>b[1]-a[1]).map(([c])=>c);
+            const cands = all.filter(i=>!cartIds.includes(Number(i.id)));
+            const scored = cands.map(i=>{ const c=(i.category||'').trim(); const price=Number(i.price||0); const s = topCats.includes(c)?2:0; return {it:i,score:s,price}; });
+            scored.sort((a,b)=> b.score - a.score || a.price - b.price);
+            const list = scored.slice(0,6).map(s=>s.it);
+            if(list.length===0){ card.style.display='none'; return; }
+            card.style.display='block';
+            list.forEach(item=>{
+                const imgSrc = resolveAssetUrl(item.imageUrl || '');
+                const priceVal = Number(item.price || 0);
+                const nameVal = String(item.name || '');
+                const el = document.createElement('button');
+                el.className='flex items-center gap-2 bg-white border border-gray-200 rounded-full px-3 py-2 text-xs shrink-0';
+                el.innerHTML = `<span class="material-symbols-sharp text-brand-base">add</span><span class="font-bold text-brand-base">${nameVal}</span><span class="text-gray-500">${priceVal.toLocaleString()} د.ع</span>`;
+                el.onclick=function(){ addToCart(item.id, priceVal, nameVal, imgSrc); updateInvoicePreview(); renderSmartSuggestions(); };
+                wrap.appendChild(el);
+            });
+        }
+        function validateCheckoutFields(){
+            const nameEl = document.getElementById('cust-name');
+            const phoneEl = document.getElementById('cust-phone');
+            const addressEl = document.getElementById('cust-address');
+            const nameOk = String(nameEl.value||'').trim().length>0;
+            const digits = toAsciiDigits(phoneEl.value||'');
+            const phoneOk = digits.length>=8;
+            const addressOk = String(addressEl.value||'').trim().length>0;
+            [nameEl, phoneEl, addressEl].forEach(el=>{ el.style.borderColor='#D1D5DB'; });
+            if(!nameOk) nameEl.style.borderColor='#dc2626';
+            if(!phoneOk) phoneEl.style.borderColor='#dc2626';
+            if(!addressOk) addressEl.style.borderColor='#dc2626';
+            if(!nameOk || !phoneOk || !addressOk){ alert('يرجى إدخال الاسم والرقم والعنوان'); return false; }
+            return true;
+        }
+        function toAsciiDigits(s){ const map={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'}; return String(s||'').split('').map(c=>map[c]??c).join('').replace(/\D/g,''); }
+        async function getRestaurantWhatsApp(){
+            let wa=(localStorage.getItem('restaurant_whatsapp_number')||'').trim();
+            wa=toAsciiDigits(wa);
+            if(wa) return wa;
+            try { const branches = await loadJson('assets/branches.json'); const keys=Object.keys(branches||{}); if(keys.length){ const k=keys[0]; const n=toAsciiDigits(branches[k]?.whatsapp||''); if(n) return n; } } catch {}
+            return '96407718444999';
+        }
+        function logOrderSilently(info){
+            try{
+                const url = (window.SHEETS_WEBHOOK_URL||localStorage.getItem('gs_webhook_url')||localStorage.getItem('backend_url')||'').trim();
+                if(!url) return;
+                const items = Object.entries(cart).map(([id,i])=>({ id:Number(id), name:i.name, qty:Number(i.qty), price:Number(i.price), line_total:Number(i.price)*Number(i.qty) }));
+                const total = items.reduce((s,i)=>s + i.line_total, 0);
+                const total_qty = items.reduce((s,i)=>s + i.qty, 0);
+                const payload = { sheet:'diwan', api_key: (localStorage.getItem('order_api_key')||'').trim(), name: info.name||'', phone: info.phone||'', address: info.address||'', note: info.note||'', total, total_qty, date: new Date().toISOString(), items };
+                const body = JSON.stringify(payload);
+                fetch(url,{method:'POST', body, keepalive:true, cache:'no-store', mode:'no-cors'}).catch(()=>{});
+            } catch {}
+        }
+        async function sendOrder(){
+            const nameEl = document.getElementById('cust-name');
+            const phoneEl = document.getElementById('cust-phone');
+            const addressEl = document.getElementById('cust-address');
+            const noteEl = document.getElementById('cust-note');
+            if(!validateCheckoutFields()) return;
+            const info={ name: nameEl.value.trim(), phone: phoneEl.value.trim(), address: addressEl.value.trim(), note: noteEl.value.trim() };
+            logOrderSilently(info);
+            const msg = buildInvoiceMessage(info);
+            const wa = await getRestaurantWhatsApp();
+            const url = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+            window.open(url,'_blank');
+            localStorage.setItem('customer_name', info.name);
+            localStorage.setItem('customer_phone', info.phone);
+            localStorage.setItem('customer_address', info.address);
+            localStorage.setItem('customer_note', info.note);
             cart = {};
             updateCartUI();
+            closeCheckoutModal();
             toggleCart();
         }
 

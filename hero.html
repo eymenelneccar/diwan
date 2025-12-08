@@ -144,7 +144,8 @@
     function apiAuthHeader(){ try{ const s=localStorage.getItem('menu_api_secret')||''; return s?{Authorization:`Bearer ${s}`}:{}} catch{ return {}; } }
 
     function updateHeroPreview() {
-      const imgUrl = resolveAssetUrl((heroImages[0]) || (els.heroImage && els.heroImage.value) || '');
+      const primaryImg = (els.heroImage && els.heroImage.value) || '';
+      const imgUrl = resolveAssetUrl(primaryImg || (heroImages[0] || ''));
       const vidUrl = resolveAssetUrl((els.heroVideo && els.heroVideo.value) || '');
       const type = getMediaType();
       if (type === 'video' && vidUrl) {
