@@ -1,0 +1,14 @@
+[
+  {
+    "name": "قهوة",
+    "imageUrl": "assets/images/sa.png",
+    "span": 1,
+    "height": 48
+  },
+  {
+    "name": "مشروبات",
+    "imageUrl": "assets/images/sa.png",
+    "span": 1,
+    "height": 48
+  }
+]
