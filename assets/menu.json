@@ -1,7 +1,7 @@
 [
   {
     "name": "قهوة",
-    "category": "قهوة",
+    "category": "",
     "price": 9500,
     "description": "",
     "id": 1764848972717,
@@ -9,7 +9,7 @@
   },
   {
     "name": "قهوة",
-    "category": "مشروبات",
+    "category": "",
     "price": 9500,
     "description": "",
     "id": 1764848972717,
@@ -18,7 +18,7 @@
   {
     "id": 1765231476688,
     "name": "اسبريسو",
-    "category": "قهوة",
+    "category": "",
     "price": 2500,
     "imageUrl": "",
     "description": "سنجل"
@@ -26,7 +26,7 @@
   {
     "id": 1765231477352,
     "name": "دوبيو",
-    "category": "قهوة",
+    "category": "",
     "price": 3500,
     "imageUrl": "/assets/images/1765231849187-hero.png",
     "description": "دبل شوت"
@@ -34,7 +34,7 @@
   {
     "id": 1765231476820,
     "name": "بندق",
-    "category": "قهوة",
+    "category": "",
     "price": 3000,
     "imageUrl": "",
     "description": ""
@@ -42,7 +42,7 @@
   {
     "id": 1765231476812,
     "name": "تركية",
-    "category": "قهوة",
+    "category": "",
     "price": 3000,
     "imageUrl": "",
     "description": ""
@@ -50,7 +50,7 @@
   {
     "id": 1765231477090,
     "name": "امريكانو",
-    "category": "قهوة",
+    "category": "",
     "price": 3500,
     "imageUrl": "",
     "description": ""
@@ -58,7 +58,7 @@
   {
     "id": 1765231476839,
     "name": "فوكاتو",
-    "category": "قهوة",
+    "category": "",
     "price": 4000,
     "imageUrl": "",
     "description": ""
@@ -66,7 +66,7 @@
   {
     "id": 1765231477346,
     "name": "كابتشينو",
-    "category": "قهوة وحليب",
+    "category": "",
     "price": 3500,
     "imageUrl": "/assets/images/1765231855529-sella.png",
     "description": "ssss"
@@ -74,7 +74,7 @@
   {
     "id": 1765231477257,
     "name": "فانيلا",
-    "category": "قهوة وحليب",
+    "category": "",
     "price": 4000,
     "imageUrl": "",
     "description": ""
@@ -82,7 +82,7 @@
   {
     "id": 1765231476862,
     "name": "كراميل",
-    "category": "قهوة وحليب",
+    "category": "",
     "price": 4000,
     "imageUrl": "",
     "description": ""
@@ -90,7 +90,7 @@
   {
     "id": 1765231477080,
     "name": "بندق",
-    "category": "قهوة وحليب",
+    "category": "",
     "price": 4000,
     "imageUrl": "",
     "description": ""
